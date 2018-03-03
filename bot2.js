@@ -5,7 +5,7 @@ var config= require('./config.js');
 
 var Twitter= new Twit(config);
 
-var favoriteTweet= function(){
+var retweet= function(){
 var params = {
   q:'#bluewave2018, #impeachment',
   result_type:'recent',
@@ -13,38 +13,14 @@ var params = {
   lang:'en'
 }
 
-Twitter.get('search/tweets', params, function(err, data){
-  var tweet= data.statuses
-  var randomTweet= ranDom(tweet);
 
-if(typeof randomTweet != 'undefined'){
-  Twitter.post('favorites/create', {id: randomTweet.id_str}, function(err, response){
-    if(err){
-      console.log("an error has occured, can not favorite");
-    }else{
-      console.log("favorited!");
-      }
-    });
-  }
-});
-}
-
-favoriteTweet();
-setInterval(favoriteTweet, 1000*20);
-
-function ranDom (arr) {
-  var index= Math.floor(Math.random()*arr.length);
-  return arr[index];
-};
-
-/*
- T.get('search/tweets', params, function(err, data) {
+Twitter.get('search/tweets', params, function(err, data) {
       
         if (!err) {
           
             var retweetId = data.statuses[0].id_str;
            
-            T.post('statuses/retweet/:id', {
+            Twitter.post('statuses/retweet/:id', {
                 id: retweetId
             }, function(err, response) {
                 if (response) {
@@ -61,3 +37,7 @@ function ranDom (arr) {
           console.log('Something went wrong while SEARCHING...');
         }
     });
+}
+
+retweet();
+setInterval(retweet, 1000*20);
